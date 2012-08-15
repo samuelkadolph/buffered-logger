@@ -4,7 +4,7 @@ buffered-logger is a concurrency safe logger. It buffers each logging statement 
 
 ## Description
 
-buffered-logger is designed to be used in multithreaded rack servers and includes a middleware to automatically capture and
+buffered-logger is designed to be used in multithreaded or multifiber rack servers and includes a middleware to automatically capture and
 write the buffered log statements during each request.
 
 ## Installation
@@ -32,7 +32,7 @@ require "buffered_logger"
 
 MyApp.logger = BufferedLogger.new("myapp.log")
 
-use BufferedLogger::Middleware, logger
+use BufferedLogger::Middleware, MyApp.logger
 run MyApp
 ```
 
