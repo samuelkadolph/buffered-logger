@@ -15,6 +15,7 @@ class BufferedLogger
       file.sync = true
 
       app.config.logger = BufferedLogger.new(file)
+      app.config.logger.level = BufferedLogger.const_get(app.config.log_level.to_s.upcase)
       app.config.middleware.insert(0, BufferedLogger::Middleware, app.config.logger)
     end
   end
