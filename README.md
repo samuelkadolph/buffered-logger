@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/samuelkadolph/buffered-logger.png?branch=master)](http://travis-ci.org/samuelkadolph/buffered-logger)
+
 # buffered-logger
 
 buffered-logger is a concurrency safe logger. It buffers each logging statement and writes to the log file all at once.
