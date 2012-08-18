@@ -4,8 +4,9 @@ buffered-logger is a concurrency safe logger. It buffers each logging statement 
 
 ## Description
 
-buffered-logger is designed to be used in multithreaded or multifiber rack servers and includes a middleware to automatically capture and
-write the buffered log statements during each request.
+buffered-logger is designed to be used in multithreaded or multifiber rack servers and includes a middleware to
+automatically capture and write the buffered log statements during each request. This is ideal for keeping requests together
+for log parsing software such as [splunk](http://www.splunk.com/).
 
 ## Installation
 

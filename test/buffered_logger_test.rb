@@ -45,29 +45,4 @@ describe BufferedLogger do
       -> { @logger.start }.must_raise(BufferedLogger::AlreadyStartedError)
     end
   end
-
-  describe "with mock" do
-    def setup
-      @logdev = mock()
-      @logger = BufferedLogger.allocate
-      @logger.instance_variable_set(:@logdev, @logdev)
-    end
-
-    it "should call end on logdev" do
-      @logdev.expects(:end)
-      @logdev.stubs(:started?).returns(true)
-      @logger.end
-    end
-
-    it "should call start on logdev" do
-      @logdev.expects(:start)
-      @logdev.stubs(:started?).returns(false)
-      @logger.start
-    end
-
-    it "should call started? on logdev" do
-      @logdev.expects(:started?)
-      @logger.started?
-    end
-  end
 end

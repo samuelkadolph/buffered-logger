@@ -6,14 +6,19 @@ class BufferedLogger < Logger
   require "buffered_logger/middleware"
   require "buffered_logger/version"
 
+  attr_accessor :sweep_frequency
+
   def initialize(*)
     super
     @logdev = LogDeviceProxy.new(@logdev)
+    self.sweep_frequency = 0.02
   end
 
   def end
     raise NotStartedError, "not started" unless started?
     @logdev.end
+    sweep if rand <= sweep_frequency
+    nil
   end
 
   def start(&block)
@@ -33,5 +38,9 @@ class BufferedLogger < Logger
 
   def started?
     @logdev.started?
+  end
+
+  def sweep
+    @logdev.sweep
   end
 end

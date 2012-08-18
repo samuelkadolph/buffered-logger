@@ -42,4 +42,18 @@ describe BufferedLogger::LogDeviceProxy do
     @proxy.write("3")
     @proxy.end
   end
+
+  describe "sweep" do
+    it "should check if the thread and fiber are alive" do
+      fiber = mock()
+      fiber.expects(:alive?).returns(true)
+      thread = mock()
+      thread.expects(:alive?).returns(true)
+      Fiber.stubs(:current).returns(fiber)
+      Thread.stubs(:current).returns(thread)
+
+      @proxy.start
+      @proxy.sweep
+    end
+  end
 end
