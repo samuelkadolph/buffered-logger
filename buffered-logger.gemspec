@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.email       = ["samuel@kadolph.com"]
   gem.description = readme.description
   gem.summary     = readme.summary
-  gem.homepage    = "http://samuelkadolph.github.com/buffered-logger"
+  gem.homepage    = "http://samuelkadolph.github.com/buffered-logger/"
   gem.version     = BufferedLogger::VERSION
 
   gem.files       = Dir["lib/**/*"]
