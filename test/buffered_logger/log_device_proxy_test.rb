@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe BufferedLogger::LogDeviceProxy do
-  def setup
+  before do
     @logdev = mock()
     @proxy = BufferedLogger::LogDeviceProxy.new(@logdev)
   end

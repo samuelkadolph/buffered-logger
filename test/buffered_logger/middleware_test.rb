@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe BufferedLogger::Middleware do
-  def setup
+  before do
     @app = mock()
     @app.stubs(:call).returns([200, {}, []])
     @logger = mock()
