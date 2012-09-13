@@ -4,7 +4,7 @@ require "rails"
 class BufferedLogger
   class Railtie < Rails::Railtie
     initializer :buffered_logger, :before => :initialize_logger do |app|
-      return if app.config.logger
+      next if app.config.logger
 
       if Rails::VERSION::STRING >= "3.1"
         path = app.paths["log"].first
