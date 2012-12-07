@@ -16,6 +16,11 @@ class BufferedLogger
       @logdev.write(@buffers.delete(key).string)
     end
 
+    def flush
+      log, @buffers[key] = @buffers.delete(key).string, StringIO.new
+      @logdev.write(log)
+    end
+
     def start
       @buffers[key] = StringIO.new
     end

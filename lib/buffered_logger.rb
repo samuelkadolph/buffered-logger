@@ -21,6 +21,10 @@ class BufferedLogger < Logger
     nil
   end
 
+  def flush
+    @logdev.flush
+  end
+
   def start(&block)
     raise AlreadyStartedError, "already started" if started?
     @logdev.start

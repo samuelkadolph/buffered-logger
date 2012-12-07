@@ -43,6 +43,15 @@ describe BufferedLogger::LogDeviceProxy do
     @proxy.end
   end
 
+  it "should flush the buffered log and then start buffering again" do
+    @logdev.expects(:write).with("12")
+    @proxy.start
+    @proxy.write("1")
+    @proxy.write("2")
+    @proxy.flush
+    @proxy.write("3")
+  end
+
   describe "sweep" do
     it "should check if the thread and fiber are alive" do
       fiber = mock()
