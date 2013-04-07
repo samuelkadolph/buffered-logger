@@ -1,4 +1,7 @@
 [![Build Status](https://secure.travis-ci.org/samuelkadolph/buffered-logger.png?branch=master)](http://travis-ci.org/samuelkadolph/buffered-logger)
+[![Gem Version](https://badge.fury.io/rb/buffered-logger.png)](http://badge.fury.io/rb/buffered-logger)
+[![Dependency Status](https://gemnasium.com/samuelkadolph/buffered-logger.png)](https://gemnasium.com/samuelkadolph/buffered-logger)
+[![Code Climate](https://codeclimate.com/github/samuelkadolph/buffered-logger.png)](https://codeclimate.com/github/samuelkadolph/buffered-logger)
 
 # buffered-logger
 
