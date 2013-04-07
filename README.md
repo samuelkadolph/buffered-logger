@@ -17,19 +17,27 @@ for log parsing software such as [splunk](http://www.splunk.com/).
 
 If you're using rails, add this line your application's Gemfile:
 
-    gem "buffered-logger", require: "buffered_logger/rails"
+```ruby
+gem "buffered-logger", require: "buffered_logger/rails"
+```
 
 Otherwise add this line to your application's Gemfile:
 
-    gem "buffered-logger"
+```ruby
+gem "buffered-logger"
+```
 
 And then execute:
 
-    $ bundle install
+```
+$ bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install buffered-logger
+```
+$ gem install buffered-logger
+```
 
 ## Usage
 
