@@ -60,12 +60,9 @@ describe BufferedLogger::LogDeviceProxy do
   end
 
   describe "sweep" do
-    it "should check if the thread and fiber are alive" do
-      fiber = mock()
-      fiber.expects(:alive?).returns(true)
+    it "should check if the thread is alive" do
       thread = mock()
       thread.expects(:alive?).returns(true)
-      Fiber.stubs(:current).returns(fiber)
       Thread.stubs(:current).returns(thread)
 
       @proxy.start
@@ -73,23 +70,19 @@ describe BufferedLogger::LogDeviceProxy do
     end
 
     it "should remove dead threads or fibers" do
-      fiber = mock()
-      fiber.stubs(:alive?).returns(false)
       thread = mock()
       thread.stubs(:alive?).returns(true)
-      Fiber.stubs(:current).returns(fiber)
       Thread.stubs(:current).returns(thread)
 
       @proxy.start
       @proxy.sweep
-      assert !@proxy.started?
+      assert @proxy.started?, "Proxy is not started"
 
-      fiber.stubs(:alive?).returns(true)
       thread.stubs(:alive?).returns(false)
 
       @proxy.start
       @proxy.sweep
-      assert !@proxy.started?
+      assert !@proxy.started?, "Proxy is started"
     end
   end
 end

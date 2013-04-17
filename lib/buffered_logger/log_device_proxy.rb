@@ -50,7 +50,7 @@ class BufferedLogger
 
     private
       def key
-        [Thread.current, Fiber.current]
+        [Thread.current]
       end
   end
 end
