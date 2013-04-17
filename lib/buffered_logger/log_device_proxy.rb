@@ -44,6 +44,10 @@ class BufferedLogger
       end
     end
 
+    def current_log
+      @buffers[key].string.dup
+    end
+
     private
       def key
         [Thread.current, Fiber.current]
