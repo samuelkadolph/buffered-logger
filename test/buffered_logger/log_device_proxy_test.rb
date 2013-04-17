@@ -52,6 +52,13 @@ describe BufferedLogger::LogDeviceProxy do
     @proxy.write("3")
   end
 
+  it "should allow access to the current buffer in string form" do
+    @proxy.start
+    @proxy.write("1")
+    @proxy.write("2")
+    assert_equal "12", @proxy.current_log
+  end
+
   describe "sweep" do
     it "should check if the thread and fiber are alive" do
       fiber = mock()
