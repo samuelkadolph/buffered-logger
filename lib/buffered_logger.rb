@@ -47,4 +47,8 @@ class BufferedLogger < Logger
   def sweep
     @logdev.sweep
   end
+
+  def current_log
+    @logdev.current_log
+  end
 end
