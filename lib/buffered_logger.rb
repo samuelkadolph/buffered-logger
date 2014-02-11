@@ -1,6 +1,11 @@
-require "logger"
-
-class BufferedLogger < Logger
+parent =
+  if defined?(::ActiveSupport::Logger)
+    ::ActiveSupport::Logger
+  else
+    require 'logger'
+    ::Logger
+  end
+class BufferedLogger < parent
   require "buffered_logger/errors"
   require "buffered_logger/log_device_proxy"
   require "buffered_logger/middleware"

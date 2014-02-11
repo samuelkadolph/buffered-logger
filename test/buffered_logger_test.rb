@@ -15,4 +15,9 @@ describe BufferedLogger do
     @logger.stubs(:started?).returns(true)
     -> { @logger.start }.must_raise(BufferedLogger::AlreadyStartedError)
   end
+
+  it "only logs the string" do
+    @logger.debug "foo"
+    assert_equal "foo\n", @buffer.string
+  end
 end
