@@ -16,8 +16,10 @@ describe BufferedLogger do
     -> { @logger.start }.must_raise(BufferedLogger::AlreadyStartedError)
   end
 
-  it "only logs the string" do
-    @logger.debug "foo"
-    assert_equal "foo\n", @buffer.string
+  if defined?(ActiveSupport)
+    it "only logs the string" do
+      @logger.debug "foo"
+      assert_equal "foo\n", @buffer.string
+    end
   end
 end
