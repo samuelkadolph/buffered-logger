@@ -18,7 +18,11 @@ describe BufferedLogger do
 
   if defined?(ActiveSupport)
     it "only logs the string" do
+      if defined?(ActiveSupport::Logger::SimpleFormatter)
+        @logger.formatter = ActiveSupport::Logger::SimpleFormatter.new
+      end
       @logger.debug "foo"
+
       assert_equal "foo\n", @buffer.string
     end
   end
