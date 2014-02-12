@@ -1,6 +1,6 @@
-require "logger"
+require 'logger'
 
-class BufferedLogger < Logger
+class BufferedLogger < ::Logger
   require "buffered_logger/errors"
   require "buffered_logger/log_device_proxy"
   require "buffered_logger/middleware"

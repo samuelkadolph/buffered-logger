@@ -15,4 +15,15 @@ describe BufferedLogger do
     @logger.stubs(:started?).returns(true)
     -> { @logger.start }.must_raise(BufferedLogger::AlreadyStartedError)
   end
+
+  if defined?(ActiveSupport)
+    it "only logs the string" do
+      if defined?(ActiveSupport::Logger::SimpleFormatter)
+        @logger.formatter = ActiveSupport::Logger::SimpleFormatter.new
+      end
+      @logger.debug "foo"
+
+      assert_equal "foo\n", @buffer.string
+    end
+  end
 end
