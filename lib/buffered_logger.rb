@@ -14,6 +14,10 @@ class BufferedLogger < ::Logger
     self.sweep_frequency = 0.02
   end
 
+  def exception_handler=(handler)
+    @logdev.exception_handler = handler
+  end
+
   def end
     raise NotStartedError, "not started" unless started?
     @logdev.end
