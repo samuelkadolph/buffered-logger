@@ -16,6 +16,29 @@ describe BufferedLogger::LogDeviceProxy do
     @proxy.close
   end
 
+  it "should pass the exception to the handler if the logdev raises and reraise iff handler returns true" do
+    @logdev.expects(:write).raises(Errno::ENOSPC).at_least_once
+
+    handled = false
+    reraise = true
+
+    @proxy.exception_handler = ->(exception) {
+      handled = true
+      reraise
+    }
+
+    assert_raises(Errno::ENOSPC) do
+      @proxy.write('message')
+    end
+
+    assert_equal true, handled
+
+    handled = false
+    reraise = false
+    @proxy.write('message')
+    assert_equal true, handled
+  end
+
   it "should not call write on the logdev once started" do
     @logdev.expects(:write).never
     @proxy.start

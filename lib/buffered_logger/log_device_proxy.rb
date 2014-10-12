@@ -3,6 +3,8 @@ require "thread"
 
 class BufferedLogger
   class LogDeviceProxy
+    attr_accessor :exception_handler
+
     def initialize(logdev)
       @logdev = logdev
       @buffers = {}
@@ -13,12 +15,12 @@ class BufferedLogger
     end
 
     def end
-      @logdev.write(@buffers.delete(key).string)
+      write_to_logdev(@buffers.delete(key).string)
     end
 
     def flush
       log, @buffers[key] = @buffers.delete(key).string, StringIO.new
-      @logdev.write(log)
+      write_to_logdev(log)
     end
 
     def start
@@ -40,7 +42,7 @@ class BufferedLogger
       if started?
         @buffers[key].write(message)
       else
-        @logdev.write(message)
+        write_to_logdev(message)
       end
     end
 
@@ -49,6 +51,17 @@ class BufferedLogger
     end
 
     private
+
+      def write_to_logdev(message)
+        @logdev.write(message)
+      rescue => e
+        if exception_handler
+          reraise = exception_handler.call(e)
+        end
+
+        raise if !exception_handler || reraise
+      end
+
       def key
         [Thread.current]
       end
