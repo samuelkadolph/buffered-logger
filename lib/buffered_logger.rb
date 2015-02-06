@@ -4,6 +4,7 @@ class BufferedLogger < ::Logger
   require "buffered_logger/errors"
   require "buffered_logger/log_device_proxy"
   require "buffered_logger/middleware"
+  require "buffered_logger/sidekiq_middleware"
   require "buffered_logger/version"
 
   attr_accessor :sweep_frequency
