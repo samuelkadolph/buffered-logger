@@ -15,6 +15,9 @@ class BufferedLogger
 
       logger = BufferedLogger.new(output_stream)
       logger.formatter = app.config.log_formatter
+      if defined?(ActiveSupport::TaggedLogging)
+        logger = ActiveSupport::TaggedLogging.new(logger)
+      end
       logger.level = BufferedLogger.const_get(app.config.log_level.to_s.upcase)
       app.config.logger = logger
       app.config.middleware.insert(0, BufferedLogger::Middleware, app.config.logger)
