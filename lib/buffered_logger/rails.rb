@@ -3,7 +3,7 @@ require "rails"
 
 class BufferedLogger
   class Railtie < Rails::Railtie
-    config.buffered_logger = ActiveSupport::OrderedOptions.new
+    config.buffered_logger = Struct.new(:output_stream).new
 
     initializer :buffered_logger, :before => :initialize_logger do |app|
       next if app.config.logger
