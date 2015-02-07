@@ -13,8 +13,10 @@ class BufferedLogger
       output_stream.binmode
       output_stream.sync = true
 
-      app.config.logger = BufferedLogger.new(output_stream)
-      app.config.logger.level = BufferedLogger.const_get(app.config.log_level.to_s.upcase)
+      logger = BufferedLogger.new(output_stream)
+      logger.formatter = app.config.log_formatter
+      logger.level = BufferedLogger.const_get(app.config.log_level.to_s.upcase)
+      app.config.logger = logger
       app.config.middleware.insert(0, BufferedLogger::Middleware, app.config.logger)
     end
 
