@@ -1,4 +1,3 @@
-require "fiber"
 require "thread"
 
 class BufferedLogger
