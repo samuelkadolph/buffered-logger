@@ -5,6 +5,7 @@ class BufferedLogger
     def initialize(logdev)
       @logdev = logdev
       @buffers = {}
+      @mutex = Mutex.new
     end
 
     def close
@@ -12,16 +13,20 @@ class BufferedLogger
     end
 
     def end
-      @logdev.write(@buffers.delete(key).string)
+      content = @mutex.synchronize { @buffers.delete(key).string }
+      @logdev.write(content)
     end
 
     def flush
-      log, @buffers[key] = @buffers.delete(key).string, StringIO.new
+      content = @mutex.synchronize { @buffers.delete(key).string }
+      log, @buffers[key] = content, StringIO.new
       @logdev.write(log)
     end
 
     def start
-      @buffers[key] = StringIO.new
+      @mutex.synchronize do
+        @buffers[key] = StringIO.new
+      end
     end
 
     def started?
@@ -29,8 +34,10 @@ class BufferedLogger
     end
 
     def sweep
-      @buffers.keep_if do |key, buffer|
-        key.all?(&:alive?)
+      @mutex.synchronize do
+        @buffers.keep_if do |key, buffer|
+          key.all?(&:alive?)
+        end
       end
       true
     end
