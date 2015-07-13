@@ -25,12 +25,12 @@ class BufferedLogger
     end
 
     def started?
-      @buffers.key?(key)
+      @buffers.clone.key?(key)
     end
 
     def sweep
-      @buffers.keep_if do |key, buffer|
-        key.all?(&:alive?)
+      @buffers.clone.each do |key, buffer|
+        @buffers.delete(key) unless key.all?(&:alive?)
       end
       true
     end
