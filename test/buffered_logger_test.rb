@@ -16,6 +16,13 @@ describe BufferedLogger do
     -> { @logger.start }.must_raise(BufferedLogger::AlreadyStartedError)
   end
 
+  it "does not raise an error with multiple threads working on a BufferedLogger instance" do
+    threads = []
+    thread = Thread.new { @logger.start; @logger.end }
+    10.times { threads << thread }
+    threads.each(&:join)
+  end
+
   if defined?(ActiveSupport)
     it "only logs the string" do
       if defined?(ActiveSupport::Logger::SimpleFormatter)
