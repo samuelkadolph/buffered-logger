@@ -25,7 +25,7 @@ class BufferedLogger
     end
 
     def started?
-      @buffers.clone.key?(key)
+      @buffers.key?(key)
     end
 
     def sweep
