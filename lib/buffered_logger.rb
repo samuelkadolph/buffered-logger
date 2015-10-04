@@ -6,8 +6,6 @@ class BufferedLogger < ::Logger
   require "buffered_logger/middleware"
   require "buffered_logger/version"
 
-  attr_accessor :sweep_frequency
-
   def initialize(*)
     super
     @logdev = LogDeviceProxy.new(@logdev)
