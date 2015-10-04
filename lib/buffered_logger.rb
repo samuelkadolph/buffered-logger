@@ -11,13 +11,11 @@ class BufferedLogger < ::Logger
   def initialize(*)
     super
     @logdev = LogDeviceProxy.new(@logdev)
-    self.sweep_frequency = 0.02
   end
 
   def end
     raise NotStartedError, "not started" unless started?
     @logdev.end
-    sweep if rand <= sweep_frequency
     nil
   end
 
@@ -45,7 +43,15 @@ class BufferedLogger < ::Logger
   end
 
   def sweep
-    @logdev.sweep
+    warn "[DEPRECATION] `sweep` is deprecated.  It is no longer necessary."
+  end
+
+  def sweep_frequency=(freq)
+    warn "[DEPRECATION] `sweep_frequency=` is deprecated.  It is no longer necessary."
+  end
+
+  def sweep_frequency
+    warn "[DEPRECATION] `sweep_frequency` is deprecated.  It is no longer necessary."
   end
 
   def current_log

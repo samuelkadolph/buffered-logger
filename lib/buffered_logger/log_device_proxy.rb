@@ -2,9 +2,11 @@ require "thread"
 
 class BufferedLogger
   class LogDeviceProxy
+    THREAD_LOCAL_VAR_NAME = :"BufferedLogger::LogDeviceProxy::string_io"
+
     def initialize(logdev)
       @logdev = logdev
-      @buffers = {}
+      destroy_thread_local
     end
 
     def close
@@ -12,44 +14,42 @@ class BufferedLogger
     end
 
     def end
-      @logdev.write(@buffers.delete(key).string)
+      @logdev.write(string_io.string)
+      destroy_thread_local
     end
 
     def flush
-      log, @buffers[key] = @buffers.delete(key).string, StringIO.new
-      @logdev.write(log)
+      @logdev.write(string_io.string)
+      string_io.string.clear
     end
 
     def start
-      @buffers[key] = StringIO.new
+      Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,StringIO.new)
     end
 
     def started?
-      @buffers.key?(key)
-    end
-
-    def sweep
-      @buffers.clone.each do |key, buffer|
-        @buffers.delete(key) unless key.all?(&:alive?)
-      end
-      true
+      !!string_io
     end
 
     def write(message)
       if started?
-        @buffers[key].write(message)
+        string_io.write(message)
       else
         @logdev.write(message)
       end
     end
 
     def current_log
-      @buffers[key].string.dup
+      string_io.string.dup
     end
 
     private
-      def key
-        [Thread.current]
-      end
+    def string_io
+      Thread.current.thread_variable_get(THREAD_LOCAL_VAR_NAME)
+    end
+
+    def destroy_thread_local
+      Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,nil)
+    end
   end
 end

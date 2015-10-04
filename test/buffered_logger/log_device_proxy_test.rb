@@ -59,33 +59,6 @@ describe BufferedLogger::LogDeviceProxy do
     assert_equal "12", @proxy.current_log
   end
 
-  describe "sweep" do
-    it "should check if the thread is alive" do
-      thread = mock()
-      thread.expects(:alive?).returns(true)
-      Thread.stubs(:current).returns(thread)
-
-      @proxy.start
-      @proxy.sweep
-    end
-
-    it "should remove dead threads or fibers" do
-      thread = mock()
-      thread.stubs(:alive?).returns(true)
-      Thread.stubs(:current).returns(thread)
-
-      @proxy.start
-      @proxy.sweep
-      assert @proxy.started?, "Proxy is not started"
-
-      thread.stubs(:alive?).returns(false)
-
-      @proxy.start
-      @proxy.sweep
-      assert !@proxy.started?, "Proxy is started"
-    end
-  end
-
   describe "flush" do
     it "should handle multiple thread simutaneously calling it" do
       @logdev.stubs(:write)
