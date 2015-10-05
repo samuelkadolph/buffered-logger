@@ -24,7 +24,7 @@ class BufferedLogger
     end
 
     def start
-      Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,StringIO.new)
+      self.string_io = StringIO.new
     end
 
     def started?
@@ -45,11 +45,23 @@ class BufferedLogger
 
     private
     def string_io
-      Thread.current.thread_variable_get(THREAD_LOCAL_VAR_NAME)
+      if Thread.current.respond_to?(:thread_variable_get)
+        Thread.current.thread_variable_get(THREAD_LOCAL_VAR_NAME)
+      else
+        Thread.current[THREAD_LOCAL_VAR_NAME]
+      end
+    end
+
+    def string_io=(s_io)
+      if Thread.current.respond_to?(:thread_variable_set)
+        Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,s_io)
+      else
+        Thread.current[THREAD_LOCAL_VAR_NAME] = s_io
+      end
     end
 
     def destroy_thread_local
-      Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,nil)
+      self.string_io = nil
     end
   end
 end
