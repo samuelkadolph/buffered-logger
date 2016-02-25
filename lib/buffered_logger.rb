@@ -40,20 +40,6 @@ class BufferedLogger < ::Logger
     @logdev.started?
   end
 
-  def sweep
-    warn "[DEPRECATION] `sweep` is deprecated.  It is no longer necessary."
-  end
-
-  def sweep_frequency=(freq)
-    warn "[DEPRECATION] `sweep_frequency=` is deprecated.  It is no longer necessary."
-    @sweep_frequency = freq
-  end
-
-  def sweep_frequency
-    warn "[DEPRECATION] `sweep_frequency` is deprecated.  It is no longer necessary."
-    @sweep_frequency || 0.02
-  end
-
   def current_log
     @logdev.current_log
   end

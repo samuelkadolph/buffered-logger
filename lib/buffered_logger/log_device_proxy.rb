@@ -45,19 +45,11 @@ class BufferedLogger
 
     private
     def string_io
-      if Thread.current.respond_to?(:thread_variable_get)
-        Thread.current.thread_variable_get(THREAD_LOCAL_VAR_NAME)
-      else
-        Thread.current[THREAD_LOCAL_VAR_NAME]
-      end
+      Thread.current.thread_variable_get(THREAD_LOCAL_VAR_NAME)
     end
 
-    def string_io=(s_io)
-      if Thread.current.respond_to?(:thread_variable_set)
-        Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,s_io)
-      else
-        Thread.current[THREAD_LOCAL_VAR_NAME] = s_io
-      end
+    def string_io=(string_io)
+      Thread.current.thread_variable_set(THREAD_LOCAL_VAR_NAME,string_io)
     end
 
     def destroy_thread_local

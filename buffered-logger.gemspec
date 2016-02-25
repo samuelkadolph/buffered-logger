@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.files       = Dir["lib/**/*"]
   gem.test_files  = Dir["test/**/*_test.rb"]
 
-  gem.required_ruby_version = ">= 1.9.2"
+  gem.required_ruby_version = ">= 2.0.0"
 
   gem.add_development_dependency "mocha", "~> 0.13.3"
   gem.add_development_dependency "rake", "~> 10.0.4"
