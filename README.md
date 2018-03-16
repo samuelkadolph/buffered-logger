@@ -50,6 +50,8 @@ use BufferedLogger::Middleware, MyApp.logger
 run MyApp
 ```
 
+If the `RAILS_LOG_TO_STDOUT` environment variable is set in a Rails environment, buffered-logger would be [12 factor app](https://12factor.net/logs) compatible for containerized environments.
+
 ## Contributing
 
 Fork, branch & pull request.
